@@ -3,13 +3,13 @@ import { initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassw
 import { getDatabase, ref, set, off ,get } from 'firebase/database';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBo1qadSDNqqCgxqI1-rpsR9w_eB2kckWg",
-    authDomain: "exai-96c0c.firebaseapp.com",
-    databaseURL: "https://exai-96c0c-default-rtdb.firebaseio.com",
-    projectId: "exai-96c0c",
-    storageBucket: "exai-96c0c.appspot.com",
-    messagingSenderId: "569401566923",
-    appId: "1:569401566923:web:9755fd5117baf2b78e9d4e"
+    apiKey: "xxxxxx",
+    authDomain: "xxxxxxx",
+    databaseURL: "xxxxxxx",
+    projectId: "xxxxxxx",
+    storageBucket: "xxxxxxx",
+    messagingSenderId: "xxxxxxx",
+    appId: "xxxxxxx"
 };
 
 // Initialize Firebase App
