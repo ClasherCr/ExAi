@@ -1,50 +1,123 @@
-# Welcome to your Expo app 👋
+# ExAi App  
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+ExAi is a chat application built with Expo, Firebase, and Docker. It leverages Firebase Realtime Database for storing API keys, IP addresses, and chat history. The app integrates AI functionality powered by Open WebUI, Ollama, and OpenAI APIs.  
 
-## Get started
+## Features  
+- **Google Login Integration**  
+- **Home Screen for Chats**  
+- **AI Chat Powered by Llama 3.2 and OpenAI**  
+- **Real-time Database for API Key and IP Storage**  
+- **Chat History Stored for Future Reference**  
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## Prerequisites  
 
-2. Start the app
+### Installations  
+1. [Node.js](https://nodejs.org/)  
+2. [Expo CLI](https://docs.expo.dev/get-started/installation/)  
+3. [Firebase Project Setup](https://firebase.google.com/)  
+4. [Docker](https://www.docker.com/)  
 
-   ```bash
-    npx expo start
-   ```
+### Firebase Configuration  
+- Create a Firebase project.  
+- Enable **Firebase Authentication** (Google Login).  
+- Configure **Firebase Realtime Database** and store:  
+  - `API_KEY`: Your OpenAI API Key.  
+  - `IP_ADDRESS`: IP address for Open WebUI/Ollama server.  
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Setup Instructions  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 1. Clone the Repository  
+bash
+git clone https://github.com/your-username/exai.git
+cd exai
+2. Install Dependencies
+bash
+Copy code
+npm install
+3. Firebase Configuration
+Replace firebaseConfig in your app's firebase.js file with your Firebase project's credentials:
 
-## Get a fresh project
+javascript
+Copy code
+const firebaseConfig = {
+  apiKey: "your_api_key",
+  authDomain: "your_auth_domain",
+  databaseURL: "your_database_url",
+  projectId: "your_project_id",
+  storageBucket: "your_storage_bucket",
+  messagingSenderId: "your_messaging_sender_id",
+  appId: "your_app_id",
+};
+Running the App
+1. Start the Expo App
+bash
+Copy code
+expo start
+Scan the QR code to open the app on your mobile device or run it in an emulator.
 
-When you're ready, run:
+2. Configure Docker
+Default Configuration (Ollama on the same machine):
+bash
+Copy code
+docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+Ollama on a Different Server:
+Replace https://example.com with your server's URL:
 
-```bash
-npm run reset-project
-```
+bash
+Copy code
+docker run -d -p 3000:8080 -e OLLAMA_BASE_URL=https://example.com -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+Open WebUI with Nvidia GPU Support:
+bash
+Copy code
+docker run -d -p 3000:8080 --gpus all --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:cuda
+Installation for OpenAI API Usage Only
+If you are exclusively using the OpenAI API:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+bash
+Copy code
+docker run -d -p 3000:8080 -e OPENAI_API_KEY=your_secret_key -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+Installing Open WebUI with Bundled Ollama
+With GPU Support:
+bash
+Copy code
+docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+For CPU Only:
+bash
+Copy code
+docker run -d -p 3000:8080 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+Firebase Configuration in Expo
+Use Firebase Authentication for user login.
+Fetch API_KEY and IP_ADDRESS from the Realtime Database:
+javascript
+Copy code
+import { getDatabase, ref, get } from 'firebase/database';
 
-## Learn more
+const fetchConfig = async () => {
+  const db = getDatabase();
+  const apiKeyRef = ref(db, 'API_KEY');
+  const ipAddressRef = ref(db, 'IP_ADDRESS');
 
-To learn more about developing your project with Expo, look at the following resources:
+  const apiKeySnapshot = await get(apiKeyRef);
+  const ipAddressSnapshot = await get(ipAddressRef);
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+  return {
+    apiKey: apiKeySnapshot.val(),
+    ipAddress: ipAddressSnapshot.val(),
+  };
+};
+Troubleshooting
+Docker Issues
+Ensure Docker is running on your machine.
+Verify ports (3000 and 8080) are not blocked.
+Expo Issues
+Clear Expo cache:
+bash
+Copy code
+expo start -c
+License
+This project is licensed under the MIT License.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
