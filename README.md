@@ -34,7 +34,7 @@ ExAi is a chat application built with Expo, Firebase, and Docker. It leverages F
 bash
 git clone https://github.com/your-username/exai.git
 cd exai
-###2. Install Dependencies
+### 2. Install Dependencies
 bash
 Copy code
 npm install
@@ -52,14 +52,14 @@ const firebaseConfig = {
   messagingSenderId: "your_messaging_sender_id",
   appId: "your_app_id",
 };
-##Running the App
-###1. Start the Expo App
+## Running the App
+### 1. Start the Expo App
 bash
 Copy code
 expo start
 Scan the QR code to open the app on your mobile device or run it in an emulator.
 
-###2. Configure Docker
+### 2. Configure Docker
 Default Configuration (Ollama on the same machine):
 bash
 Copy code
@@ -90,7 +90,7 @@ bash
 Copy code
 docker run -d -p 3000:8080 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
 
-##Firebase Configuration in Expo
+## Firebase Configuration in Expo
 
 Use Firebase Authentication for user login.
 Fetch API_KEY and IP_ADDRESS from the Realtime Database:
@@ -111,7 +111,7 @@ const fetchConfig = async () => {
     ipAddress: ipAddressSnapshot.val(),
   };
 };
-##Troubleshooting
+## Troubleshooting
 Docker Issues
 Ensure Docker is running on your machine.
 Verify ports (3000 and 8080) are not blocked.
@@ -120,6 +120,6 @@ Clear Expo cache:
 bash
 Copy code
 expo start -c
-#License
+# License
 This project is licensed under the MIT License.
 
